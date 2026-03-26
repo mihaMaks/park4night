@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS records (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date DATETIME,
+    state TEXT,
+    adults INTEGER,
+    children INTEGER,
+    bicycles INTEGER,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
