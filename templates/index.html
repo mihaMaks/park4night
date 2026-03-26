@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Park4Night Database</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Park4Night Database Manager</h1>
+            <div class="header-actions">
+                <a href="/upload" class="btn btn-primary">Upload Excel</a>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Add/Edit Form Section -->
+            <section class="form-section">
+                <h2>Add New Record</h2>
+                <form id="recordForm" class="form">
+                    <input type="hidden" id="recordId" value="">
+                    
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="state">State/Country:</label>
+                        <input type="text" id="state" name="state" placeholder="e.g., D, F, US" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adults">Adults:</label>
+                        <input type="number" id="adults" name="adults" min="0" value="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="children">Children:</label>
+                        <input type="number" id="children" name="children" min="0" value="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bicycles">Bicycles:</label>
+                        <input type="number" id="bicycles" name="bicycles" min="0" value="0">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="submitBtn" class="btn btn-primary">Add Record</button>
+                        <button type="button" id="clearBtn" class="btn btn-secondary">Clear</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Forecast Section -->
+            <section class="forecast-section">
+                <h2>Forecast (Last 3 Years for Today / Tomorrow / +2 days)</h2>
+                <div class="forecast-filters">
+                    <div class="filter-actions">
+                        <button id="forecastBtn" class="btn btn-primary">Update Forecast</button>
+                    </div>
+                </div>
+                <div class="forecast-chart">
+                    <div class="forecast-charts">
+                        <div class="forecast-year">
+                            <h4 id="year1"></h4>
+                            <canvas id="forecastChart1"></canvas>
+                        </div>
+                        <div class="forecast-year">
+                            <h4 id="year2"></h4>
+                            <canvas id="forecastChart2"></canvas>
+                        </div>
+                        <div class="forecast-year">
+                            <h4 id="year3"></h4>
+                            <canvas id="forecastChart3"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Timeline Chart Section -->
+            <section class="chart-section">
+                <h2>Records Timeline</h2>
+                <div class="chart-filters">
+                    <div class="filter-group">
+                        <label for="chartDateFrom">From Date:</label>
+                        <input type="date" id="chartDateFrom">
+                    </div>
+                    <div class="filter-group">
+                        <label for="chartDateTo">To Date:</label>
+                        <input type="date" id="chartDateTo">
+                    </div>
+                    <div class="filter-group">
+                        <label for="chartChildrenFilter">Min Children:</label>
+                        <input type="number" id="chartChildrenFilter" min="0" value="0">
+                    </div>
+                    <div class="filter-group">
+                        <label for="chartBicyclesFilter">Min Bicycles:</label>
+                        <input type="number" id="chartBicyclesFilter" min="0" value="0">
+                    </div>
+                    <div class="filter-actions">
+                        <button id="updateChartBtn" class="btn btn-primary">Update Chart</button>
+                        <button id="resetChartBtn" class="btn btn-secondary">Reset Filters</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+                <div class="state-buttons">
+                    <button id="allStatesBtn" class="state-btn active" data-state="all">All Records</button>
+                    <!-- State buttons will be dynamically added here -->
+                </div>
+            </section>
+
+            <!-- Records Table Section -->
+            <section class="table-section">
+                <h2>Records</h2>
+                <div class="search-filters">
+                    <div class="filter-group">
+                        <label for="filterDate">Filter by Date:</label>
+                        <input type="date" id="filterDate" placeholder="YYYY-MM-DD">
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="filterState">Filter by State/Country:</label>
+                        <input type="text" id="filterState" placeholder="e.g., D, F, US">
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="filterAdults">Min Adults:</label>
+                        <input type="number" id="filterAdults" min="0" value="0">
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="filterChildren">Min Children:</label>
+                        <input type="number" id="filterChildren" min="0" value="0">
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="filterBicycles">Min Bicycles:</label>
+                        <input type="number" id="filterBicycles" min="0" value="0">
+                    </div>
+
+                    <div class="filter-actions">
+                        <button id="searchBtn" class="btn btn-primary">Search</button>
+                        <button id="resetBtn" class="btn btn-secondary">Reset Filters</button>
+                    </div>
+                </div>
+                <div class="table-info">
+                    <span id="recordCount">Total: 0 records</span>
+                    <div class="pagination">
+                        <button id="prevPage" class="btn btn-secondary" disabled>Previous</button>
+                        <span id="pageInfo">Page 1</span>
+                        <button id="nextPage" class="btn btn-secondary">Next</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table id="recordsTable" class="records-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Date</th>
+                                <th>State</th>
+                                <th>Adults</th>
+                                <th>Children</th>
+                                <th>Bicycles</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr>
+                                <td colspan="7" class="loading">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Delete</h2>
+            <p>Are you sure you want to delete this record? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
+                <button id="cancelDeleteBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

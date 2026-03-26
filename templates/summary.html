@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Summary - Park4Night Database</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Upload Summary</h1>
+            <div class="header-actions">
+                <a href="/" class="btn btn-secondary">Back to Main</a>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <section class="summary-section">
+                <h2>Processed Data Summary</h2>
+                <p>Total records processed: {{.TotalRecords}}</p>
+                <p>Total adults: {{.TotalAdults}}</p>
+                <p>Total children: {{.TotalChildren}}</p>
+                <p>Total bicycles: {{.TotalBicycles}}</p>
+                <p>Unique states: {{.UniqueStates}}</p>
+
+                <h3>Sample Records:</h3>
+                <table class="records-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>State</th>
+                            <th>Adults</th>
+                            <th>Children</th>
+                            <th>Bicycles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range .SampleRecords}}
+                        <tr>
+                            <td>{{.Date}}</td>
+                            <td>{{.State}}</td>
+                            <td>{{.Adults}}</td>
+                            <td>{{.Children}}</td>
+                            <td>{{.Bicycles}}</td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+
+                <form method="post" action="/integrate">
+                    <input type="hidden" name="fileId" value="{{.FileId}}">
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Integrate into Database</button>
+                        <a href="/" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

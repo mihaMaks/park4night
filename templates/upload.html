@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Excel - Park4Night Database</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Upload Excel File</h1>
+            <div class="header-actions">
+                <a href="/" class="btn btn-secondary">Back to Main</a>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <section class="upload-section">
+                <h2>Upload and Process Excel File</h2>
+                <form id="uploadForm" enctype="multipart/form-data" method="post" action="/upload">
+                    <div class="form-group">
+                        <label for="excelFile">Select Excel File (.xls or .xlsx):</label>
+                        <input type="file" id="excelFile" name="excelFile" accept=".xls,.xlsx" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Upload and Process</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
